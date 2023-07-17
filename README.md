@@ -1,4 +1,8 @@
-Run command : npm run dev 
+
+
+Run command  to  run client : npm run dev 
+Run command  to  run server : nodemon index 
+
 
 Features : 
 
