@@ -35,7 +35,7 @@ function Form() {
         alert("Registration Successfull");
         setAuth(false)
       } else {
-        alert(response.error);
+        alert(response.message);
       }
     } catch (err) {
       console.log(err);
@@ -72,7 +72,7 @@ function Form() {
   
     navigate('/')
    }else{
-    alert(response.error)
+    alert(response.message)
    }
     }catch(err){
 console.log(err)

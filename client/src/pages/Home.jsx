@@ -18,6 +18,11 @@ import { useSelector } from 'react-redux';
 export default function Home() {
 const navigate = useNavigate()
 const [paginationCount,setPaginationCount] = useState(0)
+const [limit, setLimit] = useState(3);
+
+  const handleChange = (e) => {
+    setLimit(e.target.value);
+  };
 
 const {userData,token} = useSelector((state)=>state.Userss)
 
@@ -25,7 +30,7 @@ const {userData,token} = useSelector((state)=>state.Userss)
     const [userDetails,setUserDetails] = useState([])
 
     const fetchAllusers = async () => {
-      const response = await fetch(BASEURL+`users?p=${paginationCount}` , {
+      const response = await fetch(BASEURL+`users?p=${paginationCount}&limit=${limit}` , {
        method:"GET"
       });
       const datas = await response.json();
@@ -34,16 +39,9 @@ const {userData,token} = useSelector((state)=>state.Userss)
     
     useEffect(()=>{
   fetchAllusers()
-    },[paginationCount])
+    },[paginationCount,limit])
   
-    // const fetchAllusers = async () => {
-    //   const response = await fetch(`http://localhost:3001/admin/users?p=${paginationCount}`, {
-    //     method: "GET",
-    //     headers: { AdminAuth: `Bearer ${adminToken}` },
-    //   });
-    //   const datas = await response.json();
-    //   setUserDetails(datas);
-    // };
+  
 
 if(!userDetails ) return null
   return (
@@ -95,7 +93,20 @@ if(!userDetails ) return null
         </Table>
       </TableContainer>
       <Box sx={{justifyContent:"end",alignItems:"end",display:"flex", marginTop:"10px"}}>
-        
+      <FormControl>
+  <InputLabel id="demo-simple-select-label">Page Limit</InputLabel>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={limit}
+    label="Age"
+    onChange={(e)=>handleChange(e)}
+  >
+    <MenuItem value={2}>2</MenuItem>
+    <MenuItem value={3}>3</MenuItem>
+    <MenuItem value={4}>4</MenuItem>
+  </Select>
+</FormControl>
 
         {paginationCount === 0 ? <Button onClick={()=>setPaginationCount(paginationCount  - 1)} disabled>previous</Button> :<Button onClick={()=>setPaginationCount(paginationCount  - 1)}>previous</Button>  }   
         {userDetails && userDetails.length === 0 ?  <Button onClick={()=>setPaginationCount(paginationCount +1)} disabled>next</Button>:  <Button onClick={()=>setPaginationCount(paginationCount +1)}>next</Button>}     

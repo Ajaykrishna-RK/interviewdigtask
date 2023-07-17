@@ -2,25 +2,10 @@ import { validationResult } from "express-validator"
 import userMod from "../model/usersModel.js"
 
 
-// get All Users
-
-// export const getAllUsers = async(req,res)=>{
-//     try{
-
-// const userss = await userMod.find()
-
-// return res.status(200).json(userss)
-
-
-//     }catch(err){
-//         return res.status(500).json({error: err.message})
-//     }
-// }
-
 export const getAllUsers = async (req, res) => {
     try {
-      const page = req.query.p || 0 
-      let usersPerPage = 3
+        const page = parseInt(req.query.p) || 0;
+        const usersPerPage = parseInt(req.query.limit) || 3;
   
       const AllUsers = await userMod.find().skip(page * usersPerPage).limit(usersPerPage)
       res.json(AllUsers);
